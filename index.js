@@ -36,7 +36,7 @@ app.set('view engine', 'ejs');
 app.use('/api', require('./routes'));
 
 app.get('/', (req,res) => {
-    res.send('Hello World');
+    res.render('index.ejs', {title: 'Test Page'})
 })
 
 app.listen(PORT, () => {
