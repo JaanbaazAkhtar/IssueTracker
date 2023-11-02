@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <%- include('layouts/header.ejs') %>
+    <div class="container">
+        <div style="display: flex; justify-content:center; align-items: center;">
+            <h1><%= title %></h1>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModal2Label">Create Issue</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/api/create-issue" method="post">
+                                <div class="mb-3">
+                                <label for="issue-title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="issue-title" name="title">
+                                </div>
+                                <div class="mb-3">
+                                <label for="issue-description" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="issue-description" name="description">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="label" class="form-label">Label</label>
+                                    <input type="text" class="form-control" id="label" name="label">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="author" class="form-label">Author</label>
+                                    <input type="text" class="form-control" id="author" name="author">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select class="form-select form-select-sm" aria-label="Small select example" name="status">
+                                        <option selected>Open this select menu</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="ongoind">Ongoing</option>
+                                        <option value="completed">Completed</option>
+                                      </select>
+                                </div>
+                                <input type="hidden" name="project" value="<%= data.id %>" />
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="search" style="margin-top: 2rem;">
+            <form action="/api/projects?id=<%= data.id %>" method="post">
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="issue-title" class="form-label">Title</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="issue-title" name="title">
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="issue-description" class="form-label">Description</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="issue-description" name="description">
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="label" class="form-label">Label</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="label" name="label">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6" >
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="author" class="form-label" >Author</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="author" name="author">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="projectId" value="<%= data.id %>" />
+                <div class="row" style="margin-top: 20px;">
+
+                    <div class="col-md-2 offset-4">
+                        <button type="submit" class="btn btn-primary" id="filter-button" style="width: 10rem">Filter</button>
+                    </div>
+                    <div class="col-md-2">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" style="width: 10rem;">
+                            <span><b>+</b></span> Create Issue
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+
+        <div class="projects" style="margin-top: 20px; margin-bottom: 20px;">
+            <% if(data) { %>
+                <% if(issues) {%>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">S.No</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Labels</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <% for (let i=0; i< issues.length; i++) { %>
+                                <tr>
+                                    <th scope="row"><%= i+1 %></th>
+                                    <td><%= issues[i].title %></td>
+                                    <td><%= issues[i].description %></td>
+                                    <td><%= issues[i].author %></td>
+                                    <td><%= issues[i].labels %></td>
+                                    <td><%= issues[i].status %></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
+            <% } else { %>
+                <div class="display: flex; align-items: center; justify-content: center">
+                    <h2> No Projects available. Please add some</h2>
+                </div>
+            <% } %>
+        </div>
+    
+    </div>
+    <%- include('layouts/footer.ejs') %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        document.getElementById('filter-button').onclick({
+            
+        })
+    </script>
+</body>
+</html>

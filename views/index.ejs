@@ -10,11 +10,74 @@
 <body>
     <%- include('layouts/header.ejs') %>
     <div class="container">
-    <h1>Home Page</h1>
-    <button>Create an Issue</button>
-    <ul>
-        <li>Just a normal item</li>
-    </ul>
+        <div style="display: flex; justify-content:space-between; align-items: center;">
+            <h1>Projects</h1>
+            <div class="create-project">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span><b>+</b></span> Create Project
+                </button>
+        
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Create Project</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/api/project/create" method="post">
+                                    <div class="mb-3">
+                                    <label for="project-name" class="form-label">Project Name</label>
+                                    <input type="text" class="form-control" id="project-name" name="name">
+                                    </div>
+                                    <div class="mb-3">
+                                    <label for="project-description" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="project-description" name="description">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="author" class="form-label">Author</label>
+                                        <input type="text" class="form-control" id="author" name="author">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div class="projects">
+            <% if(data) { %>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Author</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i< data.length; i++) { %>
+                            <tr>
+                                <th scope="row"><%= i+1 %></th>
+                                <td><a href="api/projects?id=<%= data[i].id %>"><%= data[i].name %></a></td>
+                                <td><%= data[i].description %></td>
+                                <td><%= data[i].author %></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <div class="display: flex; align-items: center; justify-content: center">
+                    <h2> No Projects available. Please add some</h2>
+                </div>
+            <% } %>
+        </div>
+    
     </div>
     <%- include('layouts/footer.ejs') %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" integrity="sha512-X/YkDZyjTf4wyc2Vy16YGCPHwAY8rZJY+POgokZjQB2mhIRFJCckEGc6YyX9eNsPfn0PzThEuNs+uaomE5CO6A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -16,6 +16,14 @@ const issuesSchema = new mongoose.Schema({
     author: {
         type: String,
         required: true
+    },
+    status:{
+        type: String,
+        enum: ['pending', 'ongoing', 'completed']
+    },
+    project:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Projects'
     }
 });
 
