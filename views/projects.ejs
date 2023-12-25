@@ -22,7 +22,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="/api/create-issue" method="post">
+                            <form action="/create-issue" method="post">
                                 <div class="mb-3">
                                 <label for="issue-title" class="form-label">Title</label>
                                 <input type="text" class="form-control" id="issue-title" name="title">
@@ -58,7 +58,7 @@
         </div>
 
         <section class="search" style="margin-top: 2rem;">
-            <form action="/api/projects?id=<%= data.id %>" method="post">
+            <form action="/projects?id=<%= data.id %>" method="post">
                 <div class="row">
                     <div class="row">
                         <div class="col-md-6">

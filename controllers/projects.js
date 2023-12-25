@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
             author: req.body.author
         });
         const result = await project.save(project);
-        res.redirect("/api");
+        res.redirect("/");
     } catch(error) {
         console.log('error in creating a project ', error);
         res.status(400).json({ sucess: false, error: error });

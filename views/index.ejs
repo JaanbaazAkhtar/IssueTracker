@@ -27,7 +27,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="/api/project/create" method="post">
+                                <form action="/project/create" method="post">
                                     <div class="mb-3">
                                     <label for="project-name" class="form-label">Project Name</label>
                                     <input type="text" class="form-control" id="project-name" name="name">
@@ -64,7 +64,7 @@
                         <% for (let i=0; i< data.length; i++) { %>
                             <tr>
                                 <th scope="row"><%= i+1 %></th>
-                                <td><a href="api/projects?id=<%= data[i].id %>"><%= data[i].name %></a></td>
+                                <td><a href="projects?id=<%= data[i].id %>"><%= data[i].name %></a></td>
                                 <td><%= data[i].description %></td>
                                 <td><%= data[i].author %></td>
                             </tr>
