@@ -33,11 +33,11 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 
 
-app.use('/api', require('./routes'));
+app.use('/', require('./routes'));
 
-app.get('/', (req,res) => {
-    res.render('pls go to route /api')
-})
+// app.get('/', (req,res) => {
+//     res.render('pls go to route /api')
+// })
 
 app.listen(PORT, () => {
     console.log(`Server listening to PORT: ${PORT}`);
